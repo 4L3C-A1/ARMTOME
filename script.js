@@ -1,16 +1,17 @@
-// script.js - Lógica de la Autoescuela (Rol 3)
+// script.js - Lógica JavaScript (Rol 3 - Desarrollador de Lógica)
 
-// Función pura (obligatoria según el enunciado)
+// ====================== FUNCIÓN PURA (Paso 2) ======================
 function comprobarRespuesta(opcion) {
-    return opcion === 2; // La opción correcta es la número 2
+    // La respuesta correcta es la B → opción número 2
+    return opcion === 2;
 }
 
-// Función principal que maneja la respuesta
+// ====================== FUNCIÓN MAIN (Paso 3) ======================
 function manejarRespuesta(opcion) {
     const esCorrecta = comprobarRespuesta(opcion);
     const resultadoDiv = document.getElementById("resultado");
 
-    // Limpiamos clases anteriores
+    // Limpiamos clases anteriores para que no se acumulen
     resultadoDiv.classList.remove("correcto", "error");
 
     if (esCorrecta) {
@@ -22,13 +23,16 @@ function manejarRespuesta(opcion) {
     }
 }
 
-// Conectamos los botones cuando la página se carga
+// ====================== CONEXIÓN DE BOTONES (Paso 4) ======================
 document.addEventListener("DOMContentLoaded", () => {
-    const btn1 = document.getElementById("opcion1");
-    const btn2 = document.getElementById("opcion2");
-    const btn3 = document.getElementById("opcion3");
+    const botones = document.querySelectorAll(".btn-opcion");
 
-    btn1.addEventListener("click", () => manejarRespuesta(1));
-    btn2.addEventListener("click", () => manejarRespuesta(2));
-    btn3.addEventListener("click", () => manejarRespuesta(3));
+    botones.forEach((boton, indice) => {
+        // indice 0 = A (opción 1), indice 1 = B (opción 2), indice 2 = C (opción 3)
+        const numeroOpcion = indice + 1;
+
+        boton.addEventListener("click", () => {
+            manejarRespuesta(numeroOpcion);
+        });
+    });
 });
