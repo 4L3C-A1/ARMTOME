@@ -14,16 +14,19 @@
         </header>
 
         <div class="pregunta-card">
-            <p class="pregunta">¿Qué indica un semáforo con una luz amarilla intermitente?</p>
+            <p id="enunciado-pregunta" class="pregunta"></p>
             
-            <div class="opciones">
-                <button class="btn-opcion">A) Detenerse obligatoriamente en las mismas condiciones que si fuera roja.</button>
-                <button class="btn-opcion">B) Extremar la precaución y, en su caso, ceder el paso.</button>
-                <button class="btn-opcion">C) Acelerar para pasar antes de que cambie a luz roja.</button>
+            <div id="contenedor-opciones" class="opciones">
+                <button class="btn-opcion" data-indice="0"></button>
+                <button class="btn-opcion" data-indice="1"></button>
+                <button class="btn-opcion" data-indice="2"></button>
             </div>
 
             <div id="resultado"></div>
         </div>
     </main>
+
+    <script src="preguntas.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
