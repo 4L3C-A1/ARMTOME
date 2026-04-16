@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Autoescuela - Permiso B</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <main class="quiz-container">
+        <header class="cabecera-app">
+            <h1 class="titulo">Test Autoescuela</h1>
+            <span class="categoria">Permiso B</span>
+        </header>
+
+        <div class="pregunta-card">
+            <p id="enunciado-pregunta" class="pregunta"></p>
+            
+            <div id="contenedor-opciones" class="opciones">
+                <button class="btn-opcion" data-indice="0"></button>
+                <button class="btn-opcion" data-indice="1"></button>
+                <button class="btn-opcion" data-indice="2"></button>
+            </div>
+
+            <div id="resultado"></div>
+        </div>
+    </main>
+
+    <script src="preguntas.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
