@@ -1,38 +1,40 @@
-// script.js - Lógica JavaScript (Rol 3 - Desarrollador de Lógica)
+// script.js - Lógica Corregida
 
-// ====================== FUNCIÓN PURA (Paso 2) ======================
-function comprobarRespuesta(opcion) {
-    // La respuesta correcta es la B → opción número 2
-    return opcion === 2;
+// 1. FUNCIÓN PURA: Solo calcula, no toca el HTML [cite: 116]
+function comprobarRespuesta(opcionSeleccionada, opcionCorrecta) {
+    return opcionSeleccionada === opcionCorrecta;
 }
 
-// ====================== FUNCIÓN MAIN (Paso 3) ======================
-function manejarRespuesta(opcion) {
-    const esCorrecta = comprobarRespuesta(opcion);
-    const resultadoDiv = document.getElementById("resultado");
-
-    // Limpiamos clases anteriores para que no se acumulen
-    resultadoDiv.classList.remove("correcto", "error");
-
-    if (esCorrecta) {
-        resultadoDiv.textContent = "¡Correcto! 🥳";
-        resultadoDiv.classList.add("correcto");
-    } else {
-        resultadoDiv.textContent = "Has fallado... 📚";
-        resultadoDiv.classList.add("error");
-    }
-}
-
-// ====================== CONEXIÓN DE BOTONES (Paso 4) ======================
-document.addEventListener("DOMContentLoaded", () => {
+// 2. FUNCIÓN MAIN: Gestiona la interacción [cite: 117]
+function inicio() {
+    const preguntaActual = bancoDePreguntas[0]; // Usamos la primera del JSON
+    const enunciado = document.getElementById("enunciado-pregunta");
     const botones = document.querySelectorAll(".btn-opcion");
+    const divResultado = document.getElementById("resultado");
 
-    botones.forEach((boton, indice) => {
-        // indice 0 = A (opción 1), indice 1 = B (opción 2), indice 2 = C (opción 3)
-        const numeroOpcion = indice + 1;
-
-        boton.addEventListener("click", () => {
-            manejarRespuesta(numeroOpcion);
-        });
+    // Pintamos la pregunta y opciones del JSON en el HTML
+    enunciado.textContent = preguntaActual.pregunta;
+    botones.forEach((boton, i) => {
+        boton.textContent = preguntaActual.opciones[i];
+        
+        // Evento al pulsar [cite: 118]
+        boton.onclick = () => {
+            // Llamada a la función pura [cite: 119]
+            const esCorrecto = comprobarRespuesta(i, preguntaActual.correcta);
+            
+            // Feedback visual y cambio de clases [cite: 120, 121]
+            divResultado.classList.remove("correcto", "error");
+            
+            if (esCorrecto) {
+                divResultado.textContent = "¡Correcto! 🥳";
+                divResultado.className = "correcto";
+            } else {
+                divResultado.textContent = "Has fallado, sigue estudiando 📚";
+                divResultado.className = "error";
+            }
+        };
     });
-});
+}
+
+// Arrancar la app cuando el HTML esté listo
+window.onload = inicio;
