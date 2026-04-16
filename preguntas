@@ -1,0 +1,76 @@
+/autoescuela-app
+├── /src
+│   ├── /api              # Llamadas a servicios o backend
+│   ├── /components       # Componentes visuales (botones, tarjetas de examen)
+│   ├── /data             # Archivos JSON o mocks de preguntas (tu rama actual)
+│   │   ├── preguntas.json
+│   │   └── categorias.json
+│   ├── /hooks            # Lógica para manejar el estado del examen
+│   ├── /utils            # Validadores de respuestas y cálculos de nota
+│   └── /views            # Pantallas (Home, Examen, Resultados, Perfil)
+├── /tests                # Pruebas unitarias para los tests
+└── README.md
+    {
+  "preguntas": [
+    {
+      "id": "p-001",
+      "categoria": "señales",
+      "dificultad": "media",
+      "enunciado": "¿Qué indica esta señal de forma triangular con borde rojo?",
+      "imagen_url": "/assets/img/señal-peligro.jpg",
+      "opciones": [
+        { "id": "a", "texto": "Obligación de detenerse" },
+        { "id": "b", "texto": "Advertencia de peligro" },
+        { "id": "c", "texto": "Fin de prohibición" }
+      ],
+      "respuesta_correcta": "b",
+      "explicacion": "Las señales triangulares con borde rojo siempre advierten de un peligro próximo."
+    }
+  ]
+}
+const bancoDePreguntas = [
+  {
+    id: 1,
+    pregunta: "¿Cuál es la velocidad máxima para un turismo en una autovía?",
+    opciones: ["100 km/h", "120 km/h", "90 km/h"],
+    correcta: 1, // Índice de la respuesta correcta (120 km/h)
+    explicacion: "En autovías y autopistas, el límite genérico para turismos es 120 km/h."
+  },
+  {
+    id: 2,
+    pregunta: "¿Qué indica una luz amarilla intermitente en un semáforo?",
+    opciones: ["Detenerse obligatoriamente", "Extremar la precaución y ceder el paso", "Paso libre con prioridad"],
+    correcta: 1,
+    explicacion: "No obliga a detenerse, pero sí a actuar con cautela y ceder el paso."
+  },
+  // ... (Aquí irían las otras 18 preguntas siguiendo el mismo formato)
+];// Función para verificar la respuesta
+function verificarRespuesta(preguntaId, indiceSeleccionado) {
+  const pregunta = bancoDePreguntas.find(p => p.id === preguntaId);
+  const feedbackElemento = document.getElementById(`feedback-${preguntaId}`);
+
+  if (indiceSeleccionado === pregunta.correcta) {
+    // Respuesta Correcta
+    feedbackElemento.innerHTML = `✅ <b>¡Correcto!</b> ${pregunta.explicacion}`;
+    feedbackElemento.className = "feedback correcto";
+  } else {
+    // Respuesta Incorrecta
+    feedbackElemento.innerHTML = `❌ <b>Incorrecto.</b> La respuesta era: ${pregunta.opciones[pregunta.correcta]}. <br> ${pregunta.explicacion}`;
+    feedbackElemento.className = "feedback incorrecto";
+  }
+}<div class="pregunta-card">
+  <p>1. ¿Cuál es la velocidad máxima para un turismo en una autovía?</p>
+  
+  <button onclick="verificarRespuesta(1, 0)">100 km/h</button>
+  <button onclick="verificarRespuesta(1, 1)">120 km/h</button>
+  <button onclick="verificarRespuesta(1, 2)">90 km/h</button>
+
+  <div id="feedback-1" class="feedback"></div>
+</div>
+
+<style>
+  .feedback { margin-top: 10px; padding: 10px; border-radius: 5px; display: none; }
+  .feedback.correcto { display: block; background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+  .feedback.incorrecto { display: block; background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+  .pregunta-card { border: 1px solid #ddd; padding: 20px; margin-bottom: 20px; border-radius: 8px; }
+</style>
