@@ -1,44 +1,41 @@
-// script.js - Lógica Completa con avance automático
+// script.js - Lógica con Avance Automático
+let indiceActual = 0;
 
-// 1. VARIABLE GLOBAL: Controla en qué pregunta estamos
-let indiceActual = 0; 
-
-// 2. FUNCIÓN PURA (Requisito del examen)
+// 1. FUNCIÓN PURA
 function comprobarRespuesta(opcionSeleccionada, opcionCorrecta) {
     return opcionSeleccionada === opcionCorrecta;
 }
 
-// 3. FUNCIÓN PARA CARGAR LA PREGUNTA
+// 2. FUNCIÓN PARA CARGAR LA PREGUNTA
 function cargarPregunta() {
-    const preguntaActual = bancoDePreguntas[indiceActual]; 
+    const preguntaActual = bancoDePreguntas[indiceActual];
     const enunciado = document.getElementById("enunciado-pregunta");
     const botones = document.querySelectorAll(".btn-opcion");
     const resultadoDiv = document.getElementById("resultado");
 
-    // Limpiamos el mensaje de resultado al cargar nueva pregunta
+    // Limpiamos pantalla
     resultadoDiv.textContent = "";
     resultadoDiv.className = "";
-
-    // Pintamos los textos
+    
+    // Escribimos la pregunta
     enunciado.textContent = (indiceActual + 1) + ". " + preguntaActual.pregunta;
 
+    // Configuramos botones
     botones.forEach((boton, indice) => {
         boton.textContent = preguntaActual.opciones[indice];
-        boton.disabled = false; // Reactivamos los botones por si estaban bloqueados
-        
-        boton.onclick = () => {
-            manejarRespuesta(indice, preguntaActual.correcta);
-        };
+        boton.disabled = false;
+        boton.onclick = () => manejarRespuesta(indice, preguntaActual.correcta);
     });
 }
 
-// 4. FUNCIÓN MAIN (Gestiona el feedback y el avance)
+// 3. FUNCIÓN MAIN CON AVANCE AUTOMÁTICO
 function manejarRespuesta(opcionPulsada, correcta) {
     const esCorrecta = comprobarRespuesta(opcionPulsada, correcta);
     const resultadoDiv = document.getElementById("resultado");
     const botones = document.querySelectorAll(".btn-opcion");
+    const enunciado = document.getElementById("enunciado-pregunta");
 
-    // Bloqueamos los botones para que el usuario no pueda pulsar dos veces
+    // Bloqueamos clics repetidos
     botones.forEach(boton => boton.disabled = true);
 
     if (esCorrecta) {
@@ -49,22 +46,20 @@ function manejarRespuesta(opcionPulsada, correcta) {
         resultadoDiv.className = "error";
     }
 
-    // MAGIA: Esperamos 2.5 segundos y pasamos a la siguiente
+    // Espera 2 segundos y pasa a la siguiente automáticamente
     setTimeout(() => {
-        indiceActual++; // Sumamos 1 al índice
-        
-        // Comprobamos si quedan preguntas
+        indiceActual++;
         if (indiceActual < bancoDePreguntas.length) {
-            cargarPregunta(); // Cargamos la siguiente
+            cargarPregunta();
         } else {
-            // Si ya no hay más preguntas
+            // Fin del test
             enunciado.textContent = "¡Test Finalizado!";
             document.getElementById("contenedor-opciones").style.display = "none";
             resultadoDiv.textContent = "Has completado todas las preguntas 🎉";
             resultadoDiv.className = "correcto";
         }
-    }, 2500); // 2500 milisegundos = 2.5 segundos
+    }, 2000);
 }
 
-// 5. INICIO: Arrancamos la primera vez
+// Iniciar al cargar la página
 document.addEventListener("DOMContentLoaded", cargarPregunta);
